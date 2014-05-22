@@ -1,9 +1,14 @@
 #!/bin/bash
+readonly DRY_RUN=${1}
 
 source ports.sh
 
+if [ -n ${DRY_RUN} ]; then
+  dry_run_mode='echo'
+fi
+
 echo "Starting tunnel to remote ${REMOTE_SERVER}..."
-echo ssh -f -N -v -R ${REMOTE_SSH_PORT}:localhost:${LOCAL_SSH_PORT} \
+${dry_run_mode} ssh -f -N -v -R ${REMOTE_SSH_PORT}:localhost:${LOCAL_SSH_PORT} \
                 -R ${REMOTE_CLI_PORT}:localhost:${LOCAL_CLI_PORT} \
                 -R ${REMOTE_DV_SQL_PORT}:localhost:${LOCAL_DV_SQL_PORT} \
                 -R ${REMOTE_HTTP_PORT}:localhost:${LOCAL_HTTP_PORT} \
